@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ahmed Mohamed Shams — AI Engineer</title>
+<meta name="description" content="Ahmed Mohamed Shams — AI Engineer & Computer Science student. Machine learning, computer vision, and data engineering projects.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg:#0A0D12;
+    --surface:#12161D;
+    --surface-2:#171C25;
+    --border:#232935;
+    --border-soft:#1B212B;
+    --text:#E7EAF0;
+    --text-dim:#8B93A7;
+    --text-faint:#545C6E;
+    --cyan:#4FD1C5;
+    --cyan-dim:rgba(79,209,197,0.12);
+    --amber:#F2A65A;
+    --amber-dim:rgba(242,166,90,0.12);
+    --mono:'JetBrains Mono', ui-monospace, monospace;
+    --sans:'Inter', -apple-system, sans-serif;
+    --radius:10px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(79,209,197,0.06), transparent 40%),
+      radial-gradient(circle at 85% 15%, rgba(242,166,90,0.05), transparent 45%);
+    background-attachment:fixed;
+  }
+
+  a{color:inherit; text-decoration:none;}
+  ::selection{background:var(--cyan-dim); color:var(--cyan);}
+
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px; border-radius:4px;}
+
+  .wrap{max-width:960px; margin:0 auto; padding:0 24px;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,13,18,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border-soft);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:60px;
+  }
+  .nav-id{
+    font-family:var(--mono); font-size:13px; font-weight:600; color:var(--text);
+    display:flex; align-items:center; gap:8px;
+  }
+  .nav-id .dot{width:8px; height:8px; border-radius:50%; background:var(--cyan); box-shadow:0 0 8px var(--cyan);}
+  .nav-links{display:flex; gap:28px; font-size:13px; font-family:var(--mono);}
+  .nav-links a{color:var(--text-dim); transition:color .15s;}
+  .nav-links a:hover{color:var(--cyan);}
+  .nav-toggle{display:none;}
+
+  @media (max-width:640px){
+    .nav-links{display:none;}
+  }
+
+  /* ---------- HERO ---------- */
+  header.hero{padding:80px 0 60px; position:relative; overflow:hidden;}
+  .net-bg{
+    position:absolute; top:-40px; right:-80px; width:520px; height:420px;
+    opacity:0.35; pointer-events:none; z-index:0;
+  }
+  @media (max-width:800px){.net-bg{display:none;}}
+  .net-bg circle{fill:var(--cyan);}
+  .net-bg line{stroke:var(--border); stroke-width:1;}
+  .net-bg .pulse{animation:pulse 3.5s ease-in-out infinite;}
+  .net-bg .pulse:nth-child(2){animation-delay:.4s;}
+  .net-bg .pulse:nth-child(3){animation-delay:.9s;}
+  .net-bg .pulse:nth-child(4){animation-delay:1.4s;}
+  .net-bg .pulse:nth-child(5){animation-delay:1.9s;}
+  @keyframes pulse{0%,100%{opacity:0.4; r:2.2;} 50%{opacity:1; r:3.4;}}
+  header.hero .wrap{position:relative; z-index:1;}
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; color:var(--cyan);
+    letter-spacing:0.06em; text-transform:uppercase; margin-bottom:18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:''; width:20px; height:1px; background:var(--cyan);}
+
+  .terminal{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:0 20px 50px -20px rgba(0,0,0,0.6);
+  }
+  .terminal-bar{
+    display:flex; align-items:center; gap:6px;
+    padding:10px 14px;
+    border-bottom:1px solid var(--border-soft);
+    background:var(--surface-2);
+  }
+  .terminal-bar span{width:10px; height:10px; border-radius:50%; background:var(--border);}
+  .terminal-bar .label{
+    margin-left:8px; font-family:var(--mono); font-size:11px; color:var(--text-faint);
+  }
+  .terminal-body{padding:28px 24px 32px;}
+  .term-line{font-family:var(--mono); font-size:14px; color:var(--text-dim); margin-bottom:6px;}
+  .term-line .prompt{color:var(--amber); margin-right:8px;}
+  .term-name{
+    font-family:var(--mono); font-weight:700;
+    font-size:clamp(28px, 5vw, 44px);
+    color:var(--text);
+    margin:10px 0 6px;
+    letter-spacing:-0.02em;
+  }
+  .term-name .cursor{
+    display:inline-block; width:0.5em; height:0.85em; background:var(--cyan);
+    margin-left:4px; vertical-align:-0.08em;
+    animation:blink 1s steps(1) infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+  .term-role{
+    font-family:var(--mono); font-size:15px; color:var(--cyan); margin-bottom:20px;
+  }
+  .term-desc{
+    max-width:640px; color:var(--text-dim); font-size:15.5px; margin-bottom:22px;
+  }
+  .tag-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag{
+    font-family:var(--mono); font-size:11.5px; padding:5px 10px;
+    border:1px solid var(--border); border-radius:6px;
+    color:var(--text-dim); background:var(--surface-2);
+  }
+
+  .hero-actions{display:flex; gap:12px; margin-top:26px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono); font-size:13px; padding:11px 18px;
+    border-radius:8px; border:1px solid var(--border);
+    display:inline-flex; align-items:center; gap:8px;
+    transition:border-color .15s, transform .15s, background .15s;
+  }
+  .btn-primary{background:var(--cyan); color:#04211E; border-color:var(--cyan); font-weight:600;}
+  .btn-primary:hover{transform:translateY(-1px); box-shadow:0 8px 20px -8px var(--cyan);}
+  .btn-ghost:hover{border-color:var(--cyan); color:var(--cyan);}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:64px 0;}
+  .section-head{
+    display:flex; align-items:baseline; gap:14px; margin-bottom:32px;
+  }
+  .section-num{font-family:var(--mono); font-size:12px; color:var(--text-faint);}
+  .section-title{font-size:22px; font-weight:700; letter-spacing:-0.01em;}
+  .section-line{flex:1; height:1px; background:var(--border-soft);}
+
+  /* About */
+  .about-grid{display:grid; grid-template-columns:1.6fr 1fr; gap:40px;}
+  .about-text p{color:var(--text-dim); font-size:15px; margin-bottom:14px;}
+  .about-text strong{color:var(--text); font-weight:600;}
+  .fact-list{
+    border:1px solid var(--border); border-radius:var(--radius);
+    background:var(--surface);
+    overflow:hidden;
+  }
+  .fact{
+    display:flex; justify-content:space-between; gap:12px;
+    padding:13px 16px; border-bottom:1px solid var(--border-soft);
+    font-size:13px;
+  }
+  .fact:last-child{border-bottom:none;}
+  .fact .k{font-family:var(--mono); color:var(--text-faint);}
+  .fact .v{color:var(--text-dim); text-align:right;}
+
+  @media (max-width:720px){
+    .about-grid{grid-template-columns:1fr;}
+  }
+
+  /* Experience */
+  .timeline{border-left:1px solid var(--border); margin-left:6px;}
+  .tl-item{position:relative; padding:0 0 32px 28px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{
+    content:''; position:absolute; left:-5.5px; top:4px;
+    width:10px; height:10px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--cyan);
+  }
+  .tl-role{font-weight:600; font-size:15.5px; color:var(--text);}
+  .tl-org{font-family:var(--mono); font-size:12.5px; color:var(--amber); margin:3px 0 8px;}
+  .tl-desc{color:var(--text-dim); font-size:14px; max-width:600px;}
+  .tl-desc ul{list-style:none; margin-top:8px;}
+  .tl-desc li{position:relative; padding-left:16px; margin-bottom:6px;}
+  .tl-desc li::before{content:'→'; position:absolute; left:0; color:var(--cyan); font-size:12px;}
+
+  /* Projects */
+  .filter-row{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px;}
+  .filter-btn{
+    font-family:var(--mono); font-size:12px; padding:8px 14px;
+    border-radius:20px; border:1px solid var(--border);
+    color:var(--text-dim); background:transparent; cursor:pointer;
+    transition:all .15s;
+  }
+  .filter-btn:hover{border-color:var(--cyan); color:var(--cyan);}
+  .filter-btn.active{background:var(--cyan); border-color:var(--cyan); color:#04211E; font-weight:600;}
+
+  .project-grid{
+    display:grid; grid-template-columns:repeat(2, 1fr); gap:16px;
+  }
+  @media (max-width:720px){.project-grid{grid-template-columns:1fr;}}
+
+  .card{
+    border:1px solid var(--border); border-radius:var(--radius);
+    background:var(--surface); padding:20px;
+    transition:transform .18s, border-color .18s, background .18s;
+  }
+  .card:hover{transform:translateY(-3px); border-color:var(--cyan); background:var(--surface-2);}
+  .card-icon{
+    width:44px; height:44px; border-radius:9px;
+    background:var(--surface-2); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:14px; color:var(--cyan);
+    transition:border-color .18s, color .18s, transform .18s;
+  }
+  .card:hover .card-icon{border-color:var(--cyan); transform:translateY(-2px);}
+  .card-icon svg{width:24px; height:24px;}
+  .card-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:10px;}
+  .card-title{font-weight:600; font-size:15px; color:var(--text);}
+  .card-pipeline{
+    font-family:var(--mono); font-size:10px; padding:3px 8px;
+    border-radius:5px; background:var(--amber-dim); color:var(--amber);
+    white-space:nowrap; text-transform:uppercase; letter-spacing:.03em;
+  }
+  .card-desc{color:var(--text-dim); font-size:13.5px; margin-bottom:14px;}
+  .card-tags{display:flex; flex-wrap:wrap; gap:6px;}
+  .card-tags span{
+    font-family:var(--mono); font-size:10.5px; padding:3px 8px;
+    border:1px solid var(--border-soft); border-radius:5px; color:var(--text-faint);
+  }
+  .card[hidden]{display:none;}
+
+  /* Skills */
+  .skill-groups{display:grid; grid-template-columns:repeat(2,1fr); gap:24px;}
+  @media (max-width:720px){.skill-groups{grid-template-columns:1fr;}}
+  .skill-group-title{
+    font-family:var(--mono); font-size:11.5px; color:var(--cyan);
+    text-transform:uppercase; letter-spacing:.06em; margin-bottom:12px;
+  }
+  .chip-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    font-size:13px; padding:7px 12px; border-radius:7px;
+    background:var(--surface); border:1px solid var(--border); color:var(--text-dim);
+  }
+
+  /* Education / certs */
+  .edu-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
+  @media (max-width:720px){.edu-grid{grid-template-columns:1fr;}}
+  .edu-card{border:1px solid var(--border); border-radius:var(--radius); background:var(--surface); padding:20px;}
+  .edu-card h3{font-size:14px; margin-bottom:12px; color:var(--text); font-family:var(--mono);}
+  .edu-card ul{list-style:none;}
+  .edu-card li{
+    font-size:13.5px; color:var(--text-dim); padding:7px 0;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .edu-card li:last-child{border-bottom:none;}
+
+  /* Footer / contact */
+  footer{
+    border-top:1px solid var(--border-soft);
+    padding:56px 0 40px;
+    margin-top:20px;
+  }
+  .contact-title{font-size:26px; font-weight:700; margin-bottom:10px; letter-spacing:-0.01em;}
+  .contact-sub{color:var(--text-dim); font-size:14.5px; margin-bottom:28px; max-width:480px;}
+  .contact-row{display:flex; flex-wrap:wrap; gap:12px; margin-bottom:36px;}
+  .foot-bottom{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    font-family:var(--mono); font-size:11.5px; color:var(--text-faint);
+    padding-top:24px; border-top:1px solid var(--border-soft);
+  }
+
+  ::-webkit-scrollbar{width:10px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:var(--surface-2); border-radius:5px;}
+
+  /* ---------- HERO STATS ---------- */
+  .stat-row{
+    display:flex; flex-wrap:wrap; gap:0; margin-top:28px;
+    border:1px solid var(--border); border-radius:var(--radius);
+    background:var(--surface); overflow:hidden;
+  }
+  .stat{
+    flex:1; min-width:110px; padding:16px 18px;
+    border-right:1px solid var(--border-soft);
+  }
+  .stat:last-child{border-right:none;}
+  .stat .num{font-family:var(--mono); font-size:22px; font-weight:700; color:var(--cyan);}
+  .stat .lbl{font-size:11px; color:var(--text-faint); text-transform:uppercase; letter-spacing:.04em; margin-top:2px;}
+
+  /* ---------- REVEAL ---------- */
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .5s ease, transform .5s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* ---------- CARD CLICKABLE ---------- */
+  .card{cursor:pointer;}
+  .card-hint{
+    font-family:var(--mono); font-size:10.5px; color:var(--text-faint);
+    margin-top:12px; display:flex; align-items:center; gap:5px;
+    opacity:0; transition:opacity .15s;
+  }
+  .card:hover .card-hint{opacity:1; color:var(--cyan);}
+
+  /* ---------- MODAL ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(6,8,11,0.75);
+    backdrop-filter:blur(4px);
+    display:flex; align-items:center; justify-content:center;
+    padding:24px; z-index:100;
+    opacity:0; pointer-events:none; transition:opacity .2s;
+  }
+  .modal-overlay.open{opacity:1; pointer-events:auto;}
+  .modal{
+    max-width:560px; width:100%; max-height:85vh; overflow-y:auto;
+    background:var(--surface); border:1px solid var(--border); border-radius:14px;
+    padding:28px; position:relative;
+    transform:translateY(10px); transition:transform .2s;
+  }
+  .modal-overlay.open .modal{transform:translateY(0);}
+  .modal-close{
+    position:absolute; top:18px; right:18px;
+    width:30px; height:30px; border-radius:8px; border:1px solid var(--border);
+    background:var(--surface-2); color:var(--text-dim);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    font-family:var(--mono); font-size:14px;
+  }
+  .modal-close:hover{border-color:var(--cyan); color:var(--cyan);}
+  .modal-pipeline{
+    font-family:var(--mono); font-size:10px; padding:3px 8px; border-radius:5px;
+    background:var(--amber-dim); color:var(--amber); text-transform:uppercase;
+    letter-spacing:.03em; display:inline-block; margin-bottom:12px;
+  }
+  .modal h3{font-size:19px; margin-bottom:14px; padding-right:30px;}
+  .modal-block{margin-bottom:16px;}
+  .modal-block .lbl{
+    font-family:var(--mono); font-size:11px; color:var(--cyan);
+    text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px;
+  }
+  .modal-block p{font-size:14px; color:var(--text-dim);}
+  .modal-tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:16px;}
+  .modal-tags span{
+    font-family:var(--mono); font-size:11px; padding:4px 10px;
+    border:1px solid var(--border-soft); border-radius:6px; color:var(--text-faint);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="nav-id"><span class="dot"></span>ahmed.shams</div>
+    <div class="nav-links">
+      <a href="#about">about</a>
+      <a href="#experience">experience</a>
+      <a href="#projects">projects</a>
+      <a href="#skills">skills</a>
+      <a href="#education">education</a>
+      <a href="#contact">contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <svg class="net-bg" viewBox="0 0 520 420" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <line x1="60" y1="60" x2="220" y2="120"/><line x1="60" y1="180" x2="220" y2="120"/>
+    <line x1="60" y1="300" x2="220" y2="230"/><line x1="220" y1="120" x2="380" y2="80"/>
+    <line x1="220" y1="120" x2="380" y2="200"/><line x1="220" y1="230" x2="380" y2="200"/>
+    <line x1="220" y1="230" x2="380" y2="320"/><line x1="60" y1="60" x2="60" y2="180"/>
+    <line x1="60" y1="180" x2="60" y2="300"/>
+    <circle class="pulse" cx="60" cy="60" r="2.5"/>
+    <circle class="pulse" cx="60" cy="180" r="2.5"/>
+    <circle class="pulse" cx="60" cy="300" r="2.5"/>
+    <circle class="pulse" cx="220" cy="120" r="3"/>
+    <circle class="pulse" cx="220" cy="230" r="3"/>
+    <circle cx="380" cy="80" r="2.5" fill="var(--amber)"/>
+    <circle cx="380" cy="200" r="2.5" fill="var(--amber)"/>
+    <circle cx="380" cy="320" r="2.5" fill="var(--amber)"/>
+  </svg>
+  <div class="wrap">
+    <div class="eyebrow">portfolio / model card</div>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span></span><span></span><span></span>
+        <span class="label">ahmed_shams — zsh</span>
+      </div>
+      <div class="terminal-body">
+        <div class="term-line"><span class="prompt">$</span>whoami</div>
+        <h1 class="term-name">Ahmed Mohamed Shams<span class="cursor"></span></h1>
+        <div class="term-role">// AI Engineer · Computer Science Student · Alexandria, Egypt</div>
+        <p class="term-desc">
+          I build applied AI systems — from real-time computer vision and neural networks to
+          data pipelines and embedded IoT — turning research-grade ideas into working products
+          across healthcare, education, and smart-systems use cases.
+        </p>
+        <div class="tag-row">
+          <span class="tag">PyTorch</span>
+          <span class="tag">TensorFlow</span>
+          <span class="tag">OpenCV</span>
+          <span class="tag">MediaPipe</span>
+          <span class="tag">Scikit-learn</span>
+          <span class="tag">SQL Server</span>
+          <span class="tag">Arduino / IoT</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#projects">View projects →</a>
+      <a class="btn btn-ghost" href="mailto:ahmedmohamedshams233s@gmail.com">Get in touch</a>
+      <!-- TODO: replace # with your real GitHub URL once you create it -->
+      <a class="btn btn-ghost" href="#" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/ahmed-mohamed-shams-ab8352337" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="num">13+</div><div class="lbl">AI / ML projects</div></div>
+      <div class="stat"><div class="num">5</div><div class="lbl">domains covered</div></div>
+      <div class="stat"><div class="num">2</div><div class="lbl">mentoring roles</div></div>
+      <div class="stat"><div class="num">AI</div><div class="lbl">dept. · Pharos Univ.</div></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="about">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2 class="section-title">About</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I'm a <strong>Computer Science student specializing in Artificial Intelligence</strong> at Pharos
+          University, with hands-on experience as an <strong>AI &amp; Data Mentor</strong> at Arripian Academy
+          and London Innovation Academy — guiding students and teams through machine learning workflows,
+          computer vision, NLP, and embedded systems.
+        </p>
+        <p>
+          My work spans <strong>end-to-end AI and data science pipelines</strong>: predictive models, neural
+          networks, face and emotion recognition, medical image analysis, and interactive dashboards — built
+          with a focus on practical implementation rather than just proof-of-concept.
+        </p>
+        <p>
+          I've also worked on the data engineering side — designing SQL databases, building ETL pipelines,
+          and deploying models to <strong>AWS, Google Colab, and edge devices</strong> — and I've helped run
+          Pharos University's 2025 training programs, covering both technical supervision and coordination.
+        </p>
+      </div>
+      <div class="fact-list">
+        <div class="fact"><span class="k">location</span><span class="v">Alexandria, Egypt</span></div>
+        <div class="fact"><span class="k">focus</span><span class="v">AI / ML / Computer Vision</span></div>
+        <div class="fact"><span class="k">education</span><span class="v">CS — AI Dept., Pharos Univ.</span></div>
+        <div class="fact"><span class="k">languages</span><span class="v">Arabic (native), English</span></div>
+        <div class="fact"><span class="k">status</span><span class="v" style="color:var(--cyan)">open to work</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Experience</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-role">AI &amp; Data Mentor</div>
+        <div class="tl-org">Arripian Academy · London Innovation Academy</div>
+        <div class="tl-desc">
+          <ul>
+            <li>Mentored students through full ML workflows — from problem framing to a working, testable application.</li>
+            <li>Covered machine learning, NLP, computer vision, and embedded-systems projects.</li>
+            <li>Guided model optimization and real-world deployment decisions, not just notebook experiments.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-role">Data Engineering Training</div>
+        <div class="tl-org">Jadarah Solutions</div>
+        <div class="tl-desc">
+          <ul>
+            <li>Hands-on training in data processing, data management, and relational database systems.</li>
+            <li>Worked within Informatics and SIS (Student Information System) environments.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-role">Technical &amp; Organizational Coordinator</div>
+        <div class="tl-org">Pharos University Training Programs · 2025</div>
+        <div class="tl-desc">
+          <ul>
+            <li>Co-organized university-wide training programs alongside faculty staff.</li>
+            <li>Owned technical supervision of sessions plus administrative coordination of student activities.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="filter-row" id="filterRow">
+      <button class="filter-btn active" data-filter="all">all</button>
+      <button class="filter-btn" data-filter="vision">computer vision</button>
+      <button class="filter-btn" data-filter="ml">data science / ml</button>
+      <button class="filter-btn" data-filter="health">healthcare ai</button>
+      <button class="filter-btn" data-filter="iot">iot / embedded</button>
+      <button class="filter-btn" data-filter="data-eng">data engineering</button>
+    </div>
+
+    <div class="project-grid" id="projectGrid">
+
+      <div class="card" data-cat="vision" data-id="0" onclick="openModal(0)">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 8V5a1 1 0 0 1 1-1h3"/><path d="M20 8V5a1 1 0 0 0-1-1h-3"/>
+      <path d="M4 16v3a1 1 0 0 0 1 1h3"/><path d="M20 16v3a1 1 0 0 1-1 1h-3"/>
+      <circle cx="9" cy="11" r="0.8" fill="currentColor" stroke="none"/>
+      <circle cx="15" cy="11" r="0.8" fill="currentColor" stroke="none"/>
+      <path d="M9 15c1 .8 5 .8 6 0"/>
+    </svg></div>
+        <div class="card-top"><span class="card-title">Face Recognition System</span><span class="card-pipeline">vision</span></div>
+        <p class="card-desc">Real-time face detection and recognition system with accurate identification and tracking for live applications.</p>
+        <div class="card-tags"><span>OpenCV</span><span>Python</span><span>Real-time</span></div>
+      <div class="card-hint">↗ view case study</div>
+      </div>
+
+      <div class="card" data-cat="vision" data-id="1" onclick="openModal(1)">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 12V6a1 1 0 1 1 2 0v5"/><path d="M10 11V4.5a1 1 0 1 1 2 0V11"/>
+      <path d="M12 11V5.5a1 1 0 1 1 2 0V11"/><path d="M14 11V7a1 1 0 1 1 2 0v6c0 3-2 5-5 5s-4.5-1.5-5.5-3.5L4 12.8c-.4-.7 0-1.6.9-1.7.5 0 .9.2 1.2.6L8 14"/>
+    </svg></div>
+        <div class="card-top"><span class="card-title">Sign Language Recognition</span><span class="card-pipeline">vision</span></div>
+        <p class="card-desc">Webcam-based gesture recognition using hand-landmark extraction and trained classifiers to translate sign language into text.</p>
+        <div class="card-tags"><span>MediaPipe</span><span>ML</span><span>Accessibility</span></div>
+      <div class="card-hint">↗ view case study</div>
+      </div>
+
+      <div class="card" data-cat="vision" data-id="2" onclick="openModal(2)">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="8.5"/>
+      <path d="M9 10.5h.01M15 10.5h.01" stroke-width="2.2"/>
+      <path d="M8.5 15c1 1.2 5 1.2 7 0"/>
+    </svg></div>
+        <div class="card-top"><span class="card-title">Emotion Recognition System</span><span class="card-pipeline">vision</span></div>
+        <p class="card-desc">Detects human emotions from facial expressions in real time using computer vision and pattern recognition.</p>
+        <div class="card-tags"><span>Computer Vision</span><span>Pattern Recognition</span></div>
+      <div class="card-hint">↗ view case study</div>
+      </div>
+
+      <div class="card" data-cat="vision" data-id="3" onclick="openModal(3)">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 4h6l2 3-3 2 1 9H9l1-9-3-2 2-3Z" stroke-dasharray="2.5 2.5"/>
+      <path d="M12 4V2.5"/>
+    </svg></div>
+        <div class="card-top"><span class="card-title">Invisibility Cloak</span><span class="card-pipeline">vision</span></div>
+        <p class="card-desc">Real-time invisibility effect using HSV color segmentation and background subtraction to dynamically mask objects.</p>
+        <div class="card-tags"><span>OpenCV</span><span>HSV Segmentation</span></div>
+      <div class="card-hint">↗ view case study</div>
+      </div>
+
+      <div class="card" data-cat="health vision" data-id="4" onclick="openModal(4)">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4" y="3.5" width="16" height="17" rx="1.5"/>
+      <path d="M4 9h16M4 15h16"/>
+      <rect x="9" y="9" width="6" height="6" rx="0.5" stroke-dasharray="1.6 1.6"/>
+    </svg></div>
+        <div class="card-top"><span class="card-title">Medical Image Processing</span><span class="card-pipeline">health</span></div>
+        <p class="card-desc">AI-based image processing system for disease detection, using segmentation to highlight affected regions for diagnosis.</p>
+        <div class="card-tags"><span>Segmentation</span><span>Medical Imaging</span></div>
+      <div class="card-hint">↗ view case study</div>
+      </div>
+
+      <div class="card" data-cat="health ml" data-id="5" onclick="openModal(5)">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 20.5s-7.5-4.6-9.5-9.2C1.2 8 2.8 4.8 6 4.2c2-.4 3.7.6 6 3 2.3-2.4 4-3.4 6-3 3.2.6 4.8 3.8 3.5 7.1-2 4.6-9.5 9.2-9.5 9.2Z"/>
+      <path d="M4.5 11h3l1.5-3 2 5 1.5-3h7"/>
+    </svg></div>
+        <div class="card-top"><span class="card-title">Heart Disease Prediction</span><span class="card-pipeline">health</span></div>
+        <p class="card-desc">Neural network trained on medical data to predict heart disease risk, with normalization and tuning for early diagnosis.</p>
+        <div class="card-tags"><span>Neural Network</span><span>Healthcare</span></div>
+      <div class="card-hint">↗ view case study</div>
+      </div>
+
+      <div class="card" data-cat="health" data-id="6" onclick="openModal(6)">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3 20 7v6c0 4.5-3.5 6.8-8 8-4.5-1.2-8-3.5-8-8V7l8-4Z"/>
+      <path d="M12 8v8M8.5 12h7"/>
+    </svg></div>
+        <div class="card-top"><span class="card-title">Unity AI Surgical Simulation</span><span class="card-pipeline">health</span></div>
+        <p class="card-desc">Interactive surgical simulation built in Unity to mimic real-world medical training scenarios.</p>
+        <div class="card-tags"><span>Unity</span><span>Simulation</span><span>Ed-Tech</span></div>
+      <div class="card-hint">↗ view case study</div>
+      </div>
+
+      <div class="card" data-cat="ml" data-id="7" onclick="openModal(7)">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 20h18"/><path d="M4 16l4-5 3 3 5-7 4 4.5" />
+      <circle cx="20" cy="7.5" r="1" fill="currentColor" stroke="none"/>
+    </svg></div>
+        <div class="card-top"><span class="card-title">Amazon Sales Prediction</span><span class="card-pipeline">ml</span></div>
+        <p class="card-desc">End-to-end ML pipeline covering preprocessing, feature engineering, model training, and evaluation to forecast sales trends.</p>
+        <div class="card-tags"><span>Pandas</span><span>Scikit-learn</span><span>Forecasting</span></div>
+      <div class="card-hint">↗ view case study</div>
+      </div>
+
+      <div class="card" data-cat="ml" data-id="8" onclick="openModal(8)">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3.5" y="4" width="17" height="16" rx="1.5"/>
+      <path d="M7 15v2M11 11v6M15 8v9M19 13v5"/>
+    </svg></div>
+        <div class="card-top"><span class="card-title">Interactive Data Dashboard</span><span class="card-pipeline">ml</span></div>
+        <p class="card-desc">Cleaned and explored a dataset end-to-end, then built an interactive dashboard to visualize trends for decision-making.</p>
+        <div class="card-tags"><span>EDA</span><span>Matplotlib</span><span>Dashboard</span></div>
+      <div class="card-hint">↗ view case study</div>
+      </div>
+
+      <div class="card" data-cat="vision ml" data-id="9" onclick="openModal(9)">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 21c0-6 0-10 6-14 1 6-1 10-6 14Z"/>
+      <path d="M12 21c0-6 0-10-6-14-1 6 1 10 6 14Z"/>
+      <path d="M4 10.5h16" stroke-dasharray="1.6 1.6"/>
+    </svg></div>
+        <div class="card-top"><span class="card-title">Plant Disease Detection</span><span class="card-pipeline">edge ai</span></div>
+        <p class="card-desc">Computer-vision system that identifies plant diseases from leaf images, optimized for real-time deployment on edge devices.</p>
+        <div class="card-tags"><span>Edge AI</span><span>Computer Vision</span></div>
+      <div class="card-hint">↗ view case study</div>
+      </div>
+
+      <div class="card" data-cat="iot" data-id="10" onclick="openModal(10)">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 20V9l4-3 4 3v11"/><path d="M12 20V6l4-2.5L20 6v14"/>
+      <path d="M7 20v-3M17 20v-4" />
+      <circle cx="17" cy="9" r="0.8" fill="currentColor" stroke="none"/>
+    </svg></div>
+        <div class="card-top"><span class="card-title">Arduino Smart City System</span><span class="card-pipeline">iot</span></div>
+        <p class="card-desc">IoT-based smart-city prototype using Arduino sensors, integrated with Node-RED for real-time environmental and security monitoring.</p>
+        <div class="card-tags"><span>Arduino</span><span>Node-RED</span><span>IoT</span></div>
+      <div class="card-hint">↗ view case study</div>
+      </div>
+
+      <div class="card" data-cat="data-eng" data-id="11" onclick="openModal(11)">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <ellipse cx="12" cy="5" rx="7" ry="2.3"/>
+      <path d="M5 5v6c0 1.3 3.1 2.3 7 2.3s7-1 7-2.3V5"/>
+      <path d="M5 11v6c0 1.3 3.1 2.3 7 2.3s7-1 7-2.3v-6"/>
+    </svg></div>
+        <div class="card-top"><span class="card-title">Logistics ETL Pipeline</span><span class="card-pipeline">data eng</span></div>
+        <p class="card-desc">Automated ETL pipelines with SSIS and Informatica to extract, validate, and load logistics data into SQL Server on a schedule.</p>
+        <div class="card-tags"><span>SSIS</span><span>Informatica</span><span>SQL Server</span></div>
+      <div class="card-hint">↗ view case study</div>
+      </div>
+
+      <div class="card" data-cat="data-eng" data-id="12" onclick="openModal(12)">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <ellipse cx="12" cy="5" rx="7" ry="2.3"/>
+      <path d="M5 5v14c0 1.3 3.1 2.3 7 2.3s7-1 7-2.3V5"/>
+      <path d="M5 12c0 1.3 3.1 2.3 7 2.3s7-1 7-2.3"/>
+    </svg></div>
+        <div class="card-top"><span class="card-title">Amazon Dataset — SQL Server</span><span class="card-pipeline">data eng</span></div>
+        <p class="card-desc">Graduation project analyzing the Amazon dataset: database design, SQL queries, and structured data extraction.</p>
+        <div class="card-tags"><span>SQL</span><span>Database Design</span></div>
+      <div class="card-hint">↗ view case study</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Skills</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skill-groups">
+      <div>
+        <div class="skill-group-title">AI / ML Frameworks</div>
+        <div class="chip-row">
+          <span class="chip">PyTorch</span><span class="chip">TensorFlow</span><span class="chip">OpenCV</span>
+          <span class="chip">MediaPipe</span><span class="chip">Scikit-learn</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-title">Data &amp; Tools</div>
+        <div class="chip-row">
+          <span class="chip">Pandas</span><span class="chip">NumPy</span><span class="chip">Matplotlib</span>
+          <span class="chip">Jupyter Notebook</span><span class="chip">Google Colab</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-title">Data Engineering</div>
+        <div class="chip-row">
+          <span class="chip">SQL Server</span><span class="chip">SSIS</span><span class="chip">Informatica</span>
+          <span class="chip">AWS</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-title">Embedded &amp; IoT</div>
+        <div class="chip-row">
+          <span class="chip">Arduino</span><span class="chip">Node-RED</span><span class="chip">Robotics</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-title">Soft Skills</div>
+        <div class="chip-row">
+          <span class="chip">Strategic Planning</span><span class="chip">Problem Solving</span>
+          <span class="chip">Communication</span><span class="chip">Mentoring &amp; Training</span>
+          <span class="chip">Adaptability</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-title">Languages</div>
+        <div class="chip-row">
+          <span class="chip">Arabic — Native</span><span class="chip">English — Intermediate</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Education &amp; Certifications</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <h3>// education</h3>
+        <ul>
+          <li>B.Sc. Computer Science — Artificial Intelligence Dept.</li>
+          <li>Pharos University, Alexandria</li>
+        </ul>
+        <h3 style="margin-top:20px;">// volunteering</h3>
+        <ul>
+          <li>Hult Prize — Team Head</li>
+          <li>Dream Team — Member</li>
+        </ul>
+      </div>
+      <div class="edu-card">
+        <h3>// certifications &amp; training</h3>
+        <ul>
+          <li>AI Training — Arabian Academy</li>
+          <li>Data Engineering Training — Jadarah Solutions</li>
+          <li>Robotics Certificate — ST Smart</li>
+          <li>Google Development</li>
+          <li>ICPC Competition</li>
+          <li>ICDL</li>
+          <li>Interview Skills · CV Writing · Time Management</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <h2 class="contact-title">Let's build something.</h2>
+    <p class="contact-sub">
+      Open to AI / ML engineering roles, internships, and collaborations in computer vision,
+      data science, and applied AI.
+    </p>
+    <div class="contact-row">
+      <a class="btn btn-primary" href="mailto:ahmedmohamedshams233s@gmail.com">✉ ahmedmohamedshams233s@gmail.com</a>
+      <a class="btn btn-ghost" href="tel:+201286844053">📞 +20 128 684 4053</a>
+      <span class="btn btn-ghost" style="cursor:default;">📍 Alexandria, Egypt</span>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Ahmed Mohamed Shams</span>
+      <span>built with HTML · CSS · JS</span>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeModal()">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    <span class="modal-pipeline" id="modalPipeline"></span>
+    <h3 id="modalTitle"></h3>
+    <div class="modal-block">
+      <div class="lbl">Problem</div>
+      <p id="modalProblem"></p>
+    </div>
+    <div class="modal-block">
+      <div class="lbl">Approach</div>
+      <p id="modalApproach"></p>
+    </div>
+    <div class="modal-block">
+      <div class="lbl">Outcome</div>
+      <p id="modalOutcome"></p>
+    </div>
+    <div class="modal-tags" id="modalTags"></div>
+  </div>
+</div>
+
+<script>
+  const projectDetails = [
+    { title:"Face Recognition System", pipeline:"computer vision",
+      problem:"Live video feeds needed a way to identify and track specific people accurately, not just detect that a face exists.",
+      approach:"Built a real-time detection and recognition pipeline with OpenCV, tuned for accuracy under varying lighting and angles, with continuous tracking across frames.",
+      outcome:"A working system that reliably identifies and tracks faces live, suitable for real-time application scenarios.",
+      tags:["OpenCV","Python","Haar/DNN detectors","Real-time inference"] },
+    { title:"Sign Language Recognition", pipeline:"computer vision",
+      problem:"Sign language users need a way to communicate with systems that don't understand hand gestures by default.",
+      approach:"Used MediaPipe to extract hand landmarks from webcam input, then trained a classifier to map gesture sequences to meaningful outputs.",
+      outcome:"A real-time gesture recognition system that translates sign language into text, improving accessibility of human-computer interaction.",
+      tags:["MediaPipe","Hand landmarks","Classification","Accessibility"] },
+    { title:"Emotion Recognition System", pipeline:"computer vision",
+      problem:"Understanding user mood from facial expressions in real time, without manual input.",
+      approach:"Applied computer vision and pattern recognition on facial landmarks to classify expressions into emotion categories on live video.",
+      outcome:"Real-time mood analysis from facial features, usable as a signal in larger interactive or monitoring systems.",
+      tags:["Computer Vision","Pattern Recognition","Real-time"] },
+    { title:"Invisibility Cloak", pipeline:"computer vision",
+      problem:"Classic computer-vision challenge: dynamically remove a specific object from a live video feed convincingly.",
+      approach:"Used HSV color-space segmentation to isolate a target color, then background subtraction to replace it frame-by-frame with a pre-captured background.",
+      outcome:"A convincing real-time 'invisibility' effect, demonstrating solid grasp of color segmentation and frame masking techniques.",
+      tags:["OpenCV","HSV Segmentation","Background Subtraction"] },
+    { title:"Medical Image Processing", pipeline:"healthcare ai",
+      problem:"Manually reviewing medical images for disease indicators is slow and can miss subtle regions.",
+      approach:"Built an AI-based image processing pipeline that applies segmentation to highlight affected regions in scans automatically.",
+      outcome:"A support tool that flags regions of interest to aid — not replace — clinical diagnosis workflows.",
+      tags:["Segmentation","Medical Imaging","Computer Vision"] },
+    { title:"Heart Disease Prediction", pipeline:"healthcare ai",
+      problem:"Early risk detection for heart disease from structured medical data is critical but easy to get wrong without careful modeling.",
+      approach:"Constructed and trained a neural network on medical data, applying normalization and tuning to reduce false negatives and improve reliability.",
+      outcome:"A prediction model aimed at supporting earlier diagnosis, with measurable gains from optimization over a naive baseline.",
+      tags:["Neural Network","Healthcare","Data Normalization"] },
+    { title:"Unity AI Surgical Simulation", pipeline:"healthcare ai",
+      problem:"Medical trainees need safe, repeatable environments to practice surgical scenarios before working with real patients.",
+      approach:"Designed an interactive simulation in Unity that mimics real-world surgical training scenarios with responsive feedback.",
+      outcome:"A training tool that gives medical students hands-on practice in a realistic, risk-free simulated environment.",
+      tags:["Unity","Simulation","Ed-Tech"] },
+    { title:"Amazon Sales Prediction", pipeline:"data science / ml",
+      problem:"Forecasting future sales trends from historical e-commerce data to support business planning.",
+      approach:"Built an end-to-end pipeline: data preprocessing, feature engineering, model training, and evaluation on Amazon sales data.",
+      outcome:"A forecasting pipeline that turns raw sales history into actionable business insight, evaluated against held-out data.",
+      tags:["Pandas","Scikit-learn","Feature Engineering","Forecasting"] },
+    { title:"Interactive Data Dashboard", pipeline:"data science / ml",
+      problem:"Raw datasets are hard for stakeholders to interpret without a way to explore trends visually.",
+      approach:"Performed data cleaning and exploratory analysis, then designed an interactive dashboard surfacing the key trends.",
+      outcome:"A dashboard that supports faster, more confident data-driven decisions for non-technical stakeholders.",
+      tags:["EDA","Matplotlib","Dashboard Design"] },
+    { title:"Plant Disease Detection", pipeline:"edge ai",
+      problem:"Farmers need fast, low-cost disease detection from leaf photos, often without reliable internet access.",
+      approach:"Trained a computer-vision model to classify plant diseases from leaf images, then optimized it for on-device inference.",
+      outcome:"An edge-deployable model enabling real-time disease detection without depending on cloud connectivity.",
+      tags:["Edge AI","Computer Vision","Model Optimization"] },
+    { title:"Arduino Smart City System", pipeline:"iot / embedded",
+      problem:"Smart-city environments need low-cost sensor networks that can monitor and react to conditions in real time.",
+      approach:"Built an IoT prototype using Arduino sensors, integrated with Node-RED to automate monitoring of environmental and security data.",
+      outcome:"A working smart-city prototype demonstrating real-time sensor monitoring and automated response flows.",
+      tags:["Arduino","Node-RED","IoT","Automation"] },
+    { title:"Logistics ETL Pipeline", pipeline:"data engineering",
+      problem:"Logistics data arriving from multiple sources needed to be reliably extracted, validated, and centralized for reporting.",
+      approach:"Built automated ETL pipelines using SSIS and Informatica, scheduled via SQL Server Agent, with validation checks for data quality.",
+      outcome:"A reliable, scheduled data pipeline feeding clean logistics data into SQL Server for downstream reporting.",
+      tags:["SSIS","Informatica","SQL Server Agent","Data Quality"] },
+    { title:"Amazon Dataset — SQL Server", pipeline:"data engineering",
+      problem:"A graduation project required turning a raw e-commerce dataset into a structured, queryable database.",
+      approach:"Designed the database schema, wrote SQL queries, and managed data extraction to produce structured, analysis-ready insights.",
+      outcome:"A well-structured SQL Server database supporting downstream analytics on the Amazon dataset.",
+      tags:["SQL","Database Design","Data Extraction"] },
+  ];
+
+  const overlay = document.getElementById('modalOverlay');
+  function openModal(id){
+    const p = projectDetails[id];
+    if(!p) return;
+    document.getElementById('modalPipeline').textContent = p.pipeline;
+    document.getElementById('modalTitle').textContent = p.title;
+    document.getElementById('modalProblem').textContent = p.problem;
+    document.getElementById('modalApproach').textContent = p.approach;
+    document.getElementById('modalOutcome').textContent = p.outcome;
+    const tagsEl = document.getElementById('modalTags');
+    tagsEl.innerHTML = '';
+    p.tags.forEach(t=>{
+      const span = document.createElement('span');
+      span.textContent = t;
+      tagsEl.appendChild(span);
+    });
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.section-head, .card, .tl-item, .edu-card, .fact-list, .about-text');
+  revealEls.forEach(el=>el.classList.add('reveal'));
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){ entry.target.classList.add('in'); io.unobserve(entry.target); }
+    });
+  }, { threshold:0.12 });
+  revealEls.forEach(el=>io.observe(el));
+
+  // Project filter
+  const buttons = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.card');
+  buttons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      buttons.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      cards.forEach(card=>{
+        const cats = card.dataset.cat.split(' ');
+        card.hidden = !(f==='all' || cats.includes(f));
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
